@@ -4,18 +4,20 @@
     v-if="this.$store.state.userToken"
   >
     <b-card>
-      <div class="nav-bar d-flex justify-content-end align-items-center">
-        <div class="greetings">
-          Welcome, <span class="username">{{ $store.state.userName }}</span>
-        </div>
-        <NuxtLink to="/profile">
-          <div
-            class="profile-badge d-flex justify-content-center align-items-center ml-3"
-            @click="onToProfile"
-          >
-            <b-icon icon="person-fill" aria-hidden="true"></b-icon>
+      <div class="nav-bar d-flex justify-content-between align-items-center">
+        <div class="datetime">{{ date }} - {{ time }}</div>
+        <div class="d-flex align-items-center">
+          <div class="greetings">
+            Welcome, <span class="username">{{ $store.state.userName }}</span>
           </div>
-        </NuxtLink>
+          <NuxtLink to="/profile">
+            <div
+              class="profile-badge d-flex justify-content-center align-items-center ml-3"
+            >
+              <b-icon icon="person-fill" aria-hidden="true"></b-icon>
+            </div>
+          </NuxtLink>
+        </div>
       </div>
     </b-card>
 
@@ -25,12 +27,22 @@
 
 <script>
 export default {
+  data() {
+    return {
+      time: new Date().toLocaleTimeString(),
+      date: new Date().toLocaleDateString(),
+    }
+  },
   methods: {
-    onToProfile() {
-      this.$router.push('/profile')
+    setTime() {
+      setInterval(() => {
+        this.time = new Date().toLocaleTimeString()
+        this.date = new Date().toLocaleDateString()
+      }, 1000)
     },
   },
   beforeMount() {
+    this.setTime()
     if (!this.$store.state.userToken) {
       this.$router.push('/login')
     }
