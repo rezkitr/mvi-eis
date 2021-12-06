@@ -42,16 +42,16 @@ export default {
       this.$router.push('/login')
     }
   },
-  // async mounted() {
-  //   try {
-  //     const res = await this.$axios
-  //       .$get('/employees/current')
-  //       .setToken(this.$store.state.userToken)
-  //     console.log(res)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // },
+  async mounted() {
+    try {
+      const res = await this.$axios.$get(
+        `/employees/${this.$store.state.userToken}`
+      )
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  },
 }
 </script>
 
