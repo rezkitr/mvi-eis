@@ -26,7 +26,11 @@
               >
                 <b-icon icon="pencil-fill" aria-hidden="true"></b-icon>
               </b-button>
-              <b-button size="sm" variant="danger" @click="onDelete(row)">
+              <b-button
+                size="sm"
+                variant="danger"
+                @click="showModal('delete-modal', row)"
+              >
                 <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
               </b-button>
             </template>
@@ -37,6 +41,19 @@
     </b-card>
 
     <EmployeeFormModal :isEdit="isEdit" :empId="empId" />
+
+    <b-modal id="delete-modal" title="Delete Employee" centered>
+      <p class="my-2">Are you sure to delete this employee?</p>
+
+      <template #modal-footer="{ cancel }">
+        <b-button size="sm" variant="secondary" @click="cancel()">
+          Cancel
+        </b-button>
+        <b-button size="sm" variant="danger" @click="onDelete">
+          Delete
+        </b-button>
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -50,8 +67,15 @@ export default {
     }
   },
   methods: {
-    onDelete(row) {
-      this.$store.commit('deleteEmployee', row.item.id)
+    showModal(idModal, row) {
+      this.$bvModal.show(idModal)
+      this.empId = row.item.id
+    },
+    onDelete() {
+      this.$bvModal.hide('delete-modal')
+      setTimeout(() => {
+        this.$store.commit('deleteEmployee', this.empId)
+      }, 1000)
     },
     onEdit(row) {
       this.isEdit = true

@@ -44,9 +44,7 @@ export default {
   },
   async mounted() {
     try {
-      const res = await this.$axios.$get(
-        `/employees/${this.$store.state.userToken}`
-      )
+      const res = await this.$axios.$get(`/employees/current`)
       console.log(res)
     } catch (error) {
       console.log(error)

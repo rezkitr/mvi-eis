@@ -46,6 +46,7 @@ export default {
         if (res.success) {
           this.$store.commit('setUserToken', res.data.token)
           this.$store.commit('setUserName', this.username)
+          this.$axios.setToken(res.data.token)
           this.$router.push('/dashboard')
         }
       } catch (error) {
